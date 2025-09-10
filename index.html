@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>গজ-গিরে ক্যালকুলেটর</title>
+  <style>
+    body {
+      margin:0;
+      font-family:'Noto Sans Bengali',sans-serif;
+      background:#0f172a;
+      color:#f1f5f9;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+    .container {
+      background:#1e293b;
+      padding:24px;
+      border-radius:16px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.4);
+      max-width:380px;
+      width:100%;
+      text-align:center;
+    }
+    h1 {
+      margin-bottom:18px;
+      font-size:20px;
+      color:#38bdf8;
+    }
+    label {
+      font-size:14px;
+      display:block;
+      text-align:left;
+      margin-bottom:6px;
+      color:#cbd5e1;
+    }
+    input {
+      width:100%;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #334155;
+      background:#0f172a;
+      color:#f1f5f9;
+      font-size:15px;
+      margin-bottom:14px;
+    }
+    button {
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:#38bdf8;
+      color:#0f172a;
+      font-weight:600;
+      font-size:16px;
+      cursor:pointer;
+      margin-top:6px;
+    }
+    button:hover { background:#0ea5e9; }
+    .result {
+      margin-top:18px;
+      padding:14px;
+      border-radius:10px;
+      background:#0f172a;
+    }
+    .big { font-size:22px; font-weight:700; color:#38bdf8; }
+    .muted { color:#94a3b8; font-size:13px; margin-top:4px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>গজ-গিরে ক্যালকুলেটর</h1>
+
+    <label>প্রতি গজ দাম (টাকা)</label>
+    <input id="pricePerGaj" type="number" value="70" />
+
+    <label>গজ</label>
+    <input id="gajInput" type="number" value="2" />
+
+    <label>গিরে (0-15)</label>
+    <input id="gireInput" type="number" value="4" />
+
+    <button id="calcBtn">হিসাব কর</button>
+
+    <div class="result">
+      <div id="breakdown" class="muted">এখনো কোনো হিসাব করা হয়নি</div>
+      <div id="totalPrice" class="big">0.00 টাকা</div>
+    </div>
+  </div>
+
+  <script>
+    const pricePerGaj = document.getElementById('pricePerGaj');
+    const gajInput = document.getElementById('gajInput');
+    const gireInput = document.getElementById('gireInput');
+    const calcBtn = document.getElementById('calcBtn');
+    const breakdown = document.getElementById('breakdown');
+    const totalPrice = document.getElementById('totalPrice');
+
+    function formatMoney(x){
+      return Number(x).toLocaleString('bn-BD',{maximumFractionDigits:2,minimumFractionDigits:2}) + ' টাকা';
+    }
+
+    function calculate(){
+      const price = parseFloat(pricePerGaj.value)||0;
+      const gaj = Math.max(0,parseInt(gajInput.value)||0);
+      const gire = Math.max(0,parseInt(gireInput.value)||0);
+
+      const perGire = price/16;
+      const total = (gaj*price)+(gire*perGire);
+
+      breakdown.textContent = `গজ: ${gaj}, গিরে: ${gire} (প্রতি গিরে = ${perGire.toFixed(2)} টাকা)`;
+      totalPrice.textContent = formatMoney(total);
+    }
+
+    calcBtn.addEventListener('click',calculate);
+  </script>
+</body>
+</html>
