@@ -1,120 +1,224 @@
-<!doctype html>
-<html lang="bn">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>গজ-গিরে ক্যালকুলেটর</title>
-  <style>
-    body {
-      margin:0;
-      font-family:'Noto Sans Bengali',sans-serif;
-      background:#0f172a;
-      color:#f1f5f9;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-    .container {
-      background:#1e293b;
-      padding:24px;
-      border-radius:16px;
-      box-shadow:0 4px 20px rgba(0,0,0,0.4);
-      max-width:380px;
-      width:100%;
-      text-align:center;
-    }
-    h1 {
-      margin-bottom:18px;
-      font-size:20px;
-      color:#38bdf8;
-    }
-    label {
-      font-size:14px;
-      display:block;
-      text-align:left;
-      margin-bottom:6px;
-      color:#cbd5e1;
-    }
-    input {
-      width:100%;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid #334155;
-      background:#0f172a;
-      color:#f1f5f9;
-      font-size:15px;
-      margin-bottom:14px;
-    }
-    button {
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:8px;
-      background:#38bdf8;
-      color:#0f172a;
-      font-weight:600;
-      font-size:16px;
-      cursor:pointer;
-      margin-top:6px;
-    }
-    button:hover { background:#0ea5e9; }
-    .result {
-      margin-top:18px;
-      padding:14px;
-      border-radius:10px;
-      background:#0f172a;
-    }
-    .big { font-size:22px; font-weight:700; color:#38bdf8; }
-    .muted { color:#94a3b8; font-size:13px; margin-top:4px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gaj-Gire Calculator / গজ-গিরে ক্যালকুলেটর</title>
+<style>
+body {
+    margin:0;
+    font-family:'Noto Sans Bengali',sans-serif;
+    background:#0f172a;
+    color:#f1f5f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.container {
+    background:#1e293b;
+    padding:24px;
+    border-radius:16px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.4);
+    max-width:420px;
+    width:100%;
+    text-align:center;
+}
+h1 {margin-bottom:18px;font-size:20px;color:#38bdf8;}
+label {
+    font-size:14px;
+    display:block;
+    text-align:left;
+    margin-bottom:6px;
+    color:#cbd5e1;
+}
+input {
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #334155;
+    background:#0f172a;
+    color:#f1f5f9;
+    font-size:15px;
+    margin-bottom:14px;
+}
+.button-group {
+    display:flex;
+    justify-content:space-between;
+}
+button {
+    width:48%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#38bdf8;
+    color:#0f172a;
+    font-weight:600;
+    font-size:16px;
+    cursor:pointer;
+    margin-top:6px;
+    margin-right:4px;
+}
+button:hover { background:#0ea5e9; }
+#copyBtn {margin-right:0;}
+.result {
+    margin-top:18px;
+    padding:14px;
+    border-radius:10px;
+    background:#0f172a;
+    text-align:left;
+}
+.total { font-size:28px;font-weight:700;color:#38bdf8;margin-bottom:6px;text-align:center;}
+.formula {color:#94a3b8;font-size:14px;margin-top:4px;white-space:pre-line;word-wrap:break-word;}
+#languageSelect {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.85);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:999;
+}
+.lang-btn {
+    padding:12px 24px;
+    margin:6px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:18px;
+    font-weight:600;
+}
+.lang-btn:hover {background:#38bdf8;color:#0f172a;}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>গজ-গিরে ক্যালকুলেটর</h1>
 
-    <label>প্রতি গজ দাম (টাকা)</label>
-    <input id="pricePerGaj" type="number" value="70" />
+<div id="languageSelect">
+  <h2 style="color:white;margin-bottom:20px;">Select Language / ভাষা নির্বাচন করুন</h2>
+  <button class="lang-btn" onclick="setLanguage('en')">English</button>
+  <button class="lang-btn" onclick="setLanguage('bn')">বাংলা</button>
+</div>
 
-    <label>গজ</label>
-    <input id="gajInput" type="number" value="2" />
+<div class="container" id="calculator" style="display:none;">
+  <h1 id="title">Gaj-Gire Calculator</h1>
 
-    <label>গিরে (0-15)</label>
-    <input id="gireInput" type="number" value="4" />
+  <label id="labelPrice">Price per Gaj</label>
+  <input id="pricePerGaj" type="number" value="70" />
 
-    <button id="calcBtn">হিসাব কর</button>
+  <label id="labelGaj">Gaj (X)</label>
+  <input id="gajInput" type="number" value="2" />
 
-    <div class="result">
-      <div id="breakdown" class="muted">এখনো কোনো হিসাব করা হয়নি</div>
-      <div id="totalPrice" class="big">0.00 টাকা</div>
-    </div>
+  <label id="labelGire">Gire (Y)</label>
+  <input id="gireInput" type="number" value="4" min="0" />
+
+  <div class="button-group">
+    <button id="resetBtn">Reset</button>
+    <button id="copyBtn">Copy Total</button>
   </div>
 
-  <script>
-    const pricePerGaj = document.getElementById('pricePerGaj');
-    const gajInput = document.getElementById('gajInput');
-    const gireInput = document.getElementById('gireInput');
-    const calcBtn = document.getElementById('calcBtn');
-    const breakdown = document.getElementById('breakdown');
-    const totalPrice = document.getElementById('totalPrice');
+  <div class="result">
+    <div id="totalPrice" class="total">0.00</div>
+    <div id="breakdown" class="formula">Formula will appear here</div>
+  </div>
+</div>
 
-    function formatMoney(x){
-      return Number(x).toLocaleString('bn-BD',{maximumFractionDigits:2,minimumFractionDigits:2}) + ' টাকা';
+<script>
+let lang = localStorage.getItem('calcLang') || 'en';
+
+function setLanguage(selectedLang){
+    lang = selectedLang;
+    localStorage.setItem('calcLang', lang);
+    document.getElementById('languageSelect').style.display='none';
+    document.getElementById('calculator').style.display='block';
+    updateText();
+    calculate();
+}
+
+function updateText(){
+    if(lang==='en'){
+        document.getElementById('title').innerText = 'Gaj-Gire Calculator';
+        document.getElementById('labelPrice').innerText = 'Price per Gaj (P)';
+        document.getElementById('labelGaj').innerText = 'Gaj (X)';
+        document.getElementById('labelGire').innerText = 'Gire (Y)';
+        document.getElementById('resetBtn').innerText = 'Reset';
+        document.getElementById('copyBtn').innerText = 'Copy Total';
+        document.getElementById('breakdown').textContent = 'Formula will appear here';
+    }else{
+        document.getElementById('title').innerText = 'গজ-গিরে ক্যালকুলেটর';
+        document.getElementById('labelPrice').innerText = 'প্রতি গজ দাম (P)';
+        document.getElementById('labelGaj').innerText = 'গজ (X)';
+        document.getElementById('labelGire').innerText = 'গিরে (Y)';
+        document.getElementById('resetBtn').innerText = 'রিসেট';
+        document.getElementById('copyBtn').innerText = 'মোট কপি কর';
+        document.getElementById('breakdown').textContent = 'এখনো কোনো হিসাব করা হয়নি';
     }
+}
 
-    function calculate(){
-      const price = parseFloat(pricePerGaj.value)||0;
-      const gaj = Math.max(0,parseInt(gajInput.value)||0);
-      const gire = Math.max(0,parseInt(gireInput.value)||0);
+const pricePerGaj = document.getElementById('pricePerGaj');
+const gajInput = document.getElementById('gajInput');
+const gireInput = document.getElementById('gireInput');
+const breakdown = document.getElementById('breakdown');
+const totalPrice = document.getElementById('totalPrice');
+const resetBtn = document.getElementById('resetBtn');
+const copyBtn = document.getElementById('copyBtn');
 
-      const perGire = price/16;
-      const total = (gaj*price)+(gire*perGire);
+function formatMoney(x){
+    return lang==='en'? Number(x).toLocaleString('en-US',{maximumFractionDigits:2,minimumFractionDigits:2}) + ' Tk'
+                      : Number(x).toLocaleString('bn-BD',{maximumFractionDigits:2,minimumFractionDigits:2}) + ' টাকা';
+}
 
-      breakdown.textContent = `গজ: ${gaj}, গিরে: ${gire} (প্রতি গিরে = ${perGire.toFixed(2)} টাকা)`;
-      totalPrice.textContent = formatMoney(total);
+function calculate(){
+    const P = parseFloat(pricePerGaj.value)||0;
+    let X = Math.max(0,parseInt(gajInput.value)||0);
+    let Y = Math.max(0,parseInt(gireInput.value)||0);
+
+    // Auto convert Y >16
+    X += Math.floor(Y/16);
+    Y = Y % 16;
+
+    const perGire = P/16;
+
+    const total = (X*P) + (Y*perGire);
+
+    // Total price big
+    totalPrice.textContent = formatMoney(total);
+
+    // Live formula display
+    if(lang==='en'){
+        breakdown.textContent = `Total Price = (X × P) + (P/16 × Y)\n= (${X} × ${P} = ${(X*P).toFixed(2)}) + (${Y} × ${perGire.toFixed(2)} = ${(Y*perGire).toFixed(2)})\n= ${total.toFixed(2)} Tk`;
+    }else{
+        breakdown.textContent = `মোট দাম = (X × P) + (P/16 × Y)\n= (${X} × ${P} = ${(X*P).toFixed(2)}) + (${Y} × ${perGire.toFixed(2)} = ${(Y*perGire).toFixed(2)})\n= ${total.toFixed(2)} টাকা`;
     }
+}
 
-    calcBtn.addEventListener('click',calculate);
-  </script>
+// Auto calculate on input change
+pricePerGaj.addEventListener('input', calculate);
+gajInput.addEventListener('input', calculate);
+gireInput.addEventListener('input', calculate);
+
+// Reset button
+resetBtn.addEventListener('click', ()=>{
+    pricePerGaj.value=70;
+    gajInput.value=0;
+    gireInput.value=0;
+    calculate();
+});
+
+// Copy button
+copyBtn.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(totalPrice.textContent);
+    alert(lang==='en'? 'Total copied!' : 'মোট কপি করা হলো!');
+});
+
+// Initial load
+if(localStorage.getItem('calcLang')){
+    setLanguage(localStorage.getItem('calcLang'));
+}
+</script>
+
 </body>
 </html>
